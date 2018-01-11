@@ -1,0 +1,117 @@
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><%= link_to 'View journal', journals_path %></li>
+  <li><%= link_to 'New entry', new_journal_path %></li>
+  <li><%= link_to 'New reflection', new_reflection_path %></li>
+</ul>
+
+<p id="notice"><%= notice %></p>
+
+<h1>Journals</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Entry</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @journals.each do |journal| %>
+      <tr class="active">
+        <td>
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= "Created on #{journal.created_at.strftime("%m/%e/%Y at %w:%M %p")}, Last modified on #{journal.updated_at.strftime("%m/%e/%Y at %w:%M %p")}" %>">
+            <%= journal.title %>
+          </span>
+        </td>
+        <td><%= journal.date %></td>
+        <td><% if journal.entry? %>
+          <!-- Button trigger modal -->
+          <button class="btn btn-link" data-toggle="modal" data-target="#journal-<%= journal.id %>-entry">
+            View entry
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="journal-<%= journal.id %>-entry" tabindex="-1" role="dialog" aria-labelledby="journal-<%= journal.id %>-label" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="journal-<%= journal.id %>-label">entry</h4>
+                </div>
+                <div class="modal-body">
+                  <%= journal.entry %>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %></td>
+        <td><%= link_to 'Show', journal, class: 'btn btn-primary btn-xs' %></td>
+        <td><%= link_to 'Edit', edit_journal_path(journal), class: 'btn btn-info btn-xs' %></td>
+        <td><%= link_to 'Destroy', journal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<h2>Reflections</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Reflection</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reflections.each do |reflection| %>
+      <tr class="active">
+        <td><%= reflection.date %></td>
+        <td>
+          <!-- Button trigger modal -->
+          <button class="btn btn-link" data-toggle="modal" data-target="#reflection-<%= reflection.id %>-entry">
+            View reflection
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="reflection-<%= reflection.id %>-entry" tabindex="-1" role="dialog" aria-labelledby="reflection-<%= reflection.id %>-label" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="journal-<%= journal.id %>-label">reflection</h4>
+                </div>
+                <div class="modal-body">
+                  <%= reflection.entry %>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td><%= link_to 'Show', reflection, class: 'btn btn-primary btn-xs' %></td>
+        <td><%= link_to 'Edit', edit_reflection_path(reflection), class: 'btn btn-info btn-xs' %></td>
+        <td><%= link_to 'Destroy', reflection, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to new_journal_path, class: 'btn btn-success' do %>
+  <i class="glyphicon glyphicon-pencil"></i> New Entry
+<% end %>
+<%= link_to new_reflection_path, class: 'btn btn-success' do %>
+  <i class="glyphicon glyphicon-pencil"></i> New Reflection
+<% end %>
+
+
